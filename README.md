@@ -18,8 +18,9 @@ For execution the spring project use the locale profile, in the next release im 
 THE Locator project  is the spring app, you need to install maven and java.
 Configure the env variable JAVA_HOME, it must be java 11.
 
-./mvnw spring-boot:run \
-  -Dspring-boot.run.jvmArguments="-Dspring.profiles.active=local"
+for windows
+mvnw.cmd  spring-boot:run -Dspring-boot.run.profiles=local
+
 
 Executing  spring maven project test
 ./mvnw test
