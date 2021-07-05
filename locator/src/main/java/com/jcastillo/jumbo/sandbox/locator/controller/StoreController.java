@@ -3,6 +3,8 @@ package com.jcastillo.jumbo.sandbox.locator.controller;
 import com.jcastillo.jumbo.sandbox.locator.distance.Calculator;
 import com.jcastillo.jumbo.sandbox.locator.entity.Store;
 import com.jcastillo.jumbo.sandbox.locator.model.StoreRepository;
+
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -21,12 +23,13 @@ import java.util.stream.Collectors;
  */
 @Component
 public class StoreController {
-
+	 
     private static final int PAGE_SIZE = 10;
     @Autowired
     private StoreRepository storeRep;
     @Autowired
     private Calculator calculator;
+    private final Logger LOG = org.slf4j.LoggerFactory.getLogger(StoreController.class);
 
 
     /**
@@ -38,11 +41,13 @@ public class StoreController {
      */
     public List<StoreDistance> getClosestStores(Double lat, Double lng, int numberOfStores){
 
+    	LOG.debug("getClosestStores lat="+lat+" longitude= "+lng+" numberOfStores= "+numberOfStores);
         Pageable pageable = PageRequest.of(0,PAGE_SIZE);
         Page<Store> page = storeRep.findAll(pageable);
         var heap = new PriorityQueue<StoreDistance>((o1, o2) -> o1.getDistance().compareTo(o2.getDistance()));
 
         while(!page.isEmpty()){
+        	LOG.debug("new page ");
             pageable = pageable.next();
             List<StoreDistance> distances=page.stream().map(x->{
                 var storeDistance = new StoreDistance();
@@ -56,6 +61,8 @@ public class StoreController {
 
 
         }
+        
+        LOG.debug("Records found "+heap.size());
 
         return heap.stream().limit(numberOfStores).collect(Collectors.toList());
 
@@ -80,6 +87,7 @@ public class StoreController {
 
         }
 
+        LOG.debug("total stores "+stores.size());
         return stores;
     	
     	

@@ -1,9 +1,6 @@
 package com.jcastillo.jumbo.sandbox.locator.service;
 
-import com.jcastillo.jumbo.sandbox.locator.security.AuthenticationResponse;
-import com.jcastillo.jumbo.sandbox.locator.security.DefaultUserDetailService;
-import com.jcastillo.jumbo.sandbox.locator.security.JwsUtil;
-import com.jcastillo.jumbo.sandbox.locator.security.User;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -12,6 +9,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.jcastillo.jumbo.sandbox.locator.security.AuthenticationResponse;
+import com.jcastillo.jumbo.sandbox.locator.security.DefaultUserDetailService;
+import com.jcastillo.jumbo.sandbox.locator.security.JwsUtil;
+import com.jcastillo.jumbo.sandbox.locator.security.User;
 
 
 /**
@@ -22,6 +24,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/v1")
 public class Access {
+	
+	private final Logger LOG = org.slf4j.LoggerFactory.getLogger(Access.class);
 
     @Autowired
     private AuthenticationManager am;
@@ -35,8 +39,9 @@ public class Access {
 
     @PostMapping("/login")
     public AuthenticationResponse login(@RequestBody User user) throws BadRequestException{
-    	
+    	LOG.info("AuthenticationResponse");
     	if(user==null) {
+    		
     		throw new BadRequestException("Invalid credentials");
     	}
     	
@@ -48,12 +53,13 @@ public class Access {
     		throw new BadRequestException("Invalid password");
     	}
     	
+    	LOG.info("Valid values");
 
         try {
             var upt = new UsernamePasswordAuthenticationToken(user.getUserName(), user.getPassword());
             am.authenticate(upt);
         } catch (BadCredentialsException e) {
-
+        	LOG.warn("Invalid credentials");
             throw new BadRequestException("Incorrect user name or password");
 
         }

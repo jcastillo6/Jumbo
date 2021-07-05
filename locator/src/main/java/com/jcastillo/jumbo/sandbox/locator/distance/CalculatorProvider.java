@@ -1,6 +1,7 @@
 package com.jcastillo.jumbo.sandbox.locator.distance;
 
 
+import org.slf4j.Logger;
 import org.springframework.stereotype.Service;
 
 /**
@@ -16,11 +17,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class CalculatorProvider implements Calculator {
     private final int RADIUS_OF_THE_EARTH=6373;
+    private final Logger LOG = org.slf4j.LoggerFactory.getLogger(CalculatorProvider.class);
 
 
     @Override
     public double distanceCalculator(Double latOfPointA, Double latOfPointB, Double longOfPointA, Double longOfPointB) {
-
+    	LOG.debug("lat of a= "+latOfPointA+" lat of b="+latOfPointB+" longt of a="+longOfPointA + " longt of b="+ longOfPointB);
     	if(latOfPointA==null || latOfPointB==null || longOfPointA==null || longOfPointB==null)
     		throw new IllegalArgumentException("Invalid parameters");
     	var lgA = Math.toRadians(longOfPointA);
@@ -33,7 +35,7 @@ public class CalculatorProvider implements Calculator {
         var a = Math.pow(Math.sin(dlat/2),2)+Math.cos(ltA)*Math.cos(ltB)*Math.pow(Math.sin(dlon),2);
         var c = 2 * Math.atan2(Math.sqrt(a),Math.sqrt(1-a));
         var d =  RADIUS_OF_THE_EARTH * c;
-        
+        LOG.debug("Calculation result in KM ="+d);
         return d;
     }
 }
