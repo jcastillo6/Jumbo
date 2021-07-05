@@ -1,12 +1,11 @@
 package com.jcastillo.jumbo.sandbox.locator.entity;
 
-import lombok.Data;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import java.time.LocalTime;
+
+import lombok.Data;
 
 /**
  * Store definition
@@ -30,9 +29,10 @@ public class Store {
     private Integer complexNumber;
     private String locationType;
     private Boolean collectionPoint;
-    private LocalTime todayOpen;
+    private String todayOpen;
+    private String todayClose;
     private long sapStoreID;
-    private LocalTime todayClose;
+
 
 
 }
