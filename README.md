@@ -15,6 +15,9 @@ The front-end and backend use jwt for authentication
 Excecute:
 For execution the spring project use the locale profile, in the next release im going to incluide another profile for cloud deployment
 
+THE Locator project  is the spring app, you need to install maven and java.
+Configure the env variable JAVA_HOME, it must be java 11.
+
 ./mvnw spring-boot:run \
   -Dspring-boot.run.jvmArguments="-Dspring.profiles.active=local"
 
