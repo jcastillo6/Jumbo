@@ -1,0 +1,16 @@
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="form-signin">
+      <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
+      <div  class="form-error">
+        <strong *ngIf="userName.invalid && (userName.dirty || userName.touched)" >userName is required</strong>
+        <br/>
+        <strong *ngIf="password.invalid && (password.dirty || password.touched)" >password is required</strong>
+        <br/>
+        <strong *ngIf="invalidLogin" >Invalid user o login</strong>
+    </div>
+  
+        <input formControlName="userName" class="form-control"  placeholder="Name" required>
+
+        <input formControlName="password" type="password" class="form-control" placeholder="Password" required>
+
+      <button class="w-100 btn btn-lg btn-primary" type="submit" [disabled]="form.invalid">Sign in</button>
+    </form>

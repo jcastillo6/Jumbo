@@ -1,0 +1,11 @@
+<div class="list-group">
+    <a *ngFor="let strDst of storeDistances" href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+        <div class="d-flex w-100 justify-content-between">
+          <h5 class="mb-1">{{strDst.store.addressName}}</h5>
+          <small>{{strDst.distance | number }} KM</small>
+        </div>
+        <p class="mb-1">{{strDst.store.street+' '+strDst.store.street2+' '+strDst.store.street3+' '+strDst.store.city}} </p>
+        <small>Open at {{strDst.store.todayOpen}} and close at {{strDst.store.todayClose}}</small>
+      </a>
+    
+</div>
