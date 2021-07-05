@@ -2,7 +2,7 @@
 
 This app has two app, an angular app for the frontend and for the backend a spring application.
 
-Spring boot 2.5.2
+Spring boot 2.5.2 / 
 Angular
 
 This app will help you to look up the stores closest to a specific point, base on the latitude and longitude
