@@ -4,6 +4,7 @@ package com.jcastillo.jumbo.sandbox.locator.distance;
 import org.springframework.stereotype.Service;
 
 /**
+ * Default distance calculator provider, this is base on the following formula
  * https://andrew.hedges.name/experiments/haversine/
  * dlon = lon2 - lon1
  * dlat = lat2 - lat1
@@ -20,11 +21,19 @@ public class CalculatorProvider implements Calculator {
     @Override
     public double distanceCalculator(Double latOfPointA, Double latOfPointB, Double longOfPointA, Double longOfPointB) {
 
-        var dlon = longOfPointA - longOfPointB;
-        var dlat = latOfPointA - latOfPointB;
-        var a = Math.pow(Math.sin(dlat/2),2)+Math.cos(latOfPointA)*Math.cos(latOfPointB)*Math.pow(Math.sin(dlon),2);
+    	if(latOfPointA==null || latOfPointB==null || longOfPointA==null || longOfPointB==null)
+    		throw new IllegalArgumentException("Invalid parameters");
+    	var lgA = Math.toRadians(longOfPointA);
+    	var lgB = Math.toRadians(longOfPointB);
+    	var ltA = Math.toRadians(latOfPointA);
+    	var ltB = Math.toRadians(latOfPointB);
+        var dlon = lgA - lgB;
+        var dlat = ltA - ltB;
+        // the original formula Math.pow(Math.sin(dlat/2),2) + Math.cos(lat1) * Math.cos(lat2) * Math.pow(Math.sin(dlon/2),2);
+        var a = Math.pow(Math.sin(dlat/2),2)+Math.cos(ltA)*Math.cos(ltB)*Math.pow(Math.sin(dlon),2);
         var c = 2 * Math.atan2(Math.sqrt(a),Math.sqrt(1-a));
         var d =  RADIUS_OF_THE_EARTH * c;
+        
         return d;
     }
 }

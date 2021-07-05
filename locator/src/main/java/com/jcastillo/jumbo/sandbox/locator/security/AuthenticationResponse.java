@@ -1,5 +1,10 @@
 package com.jcastillo.jumbo.sandbox.locator.security;
 
+/**
+ * Helper class
+ * @author jorge castillo
+ *
+ */
 public class AuthenticationResponse {
     private final String jwt;
 

@@ -8,11 +8,17 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.PriorityQueue;
 import java.util.stream.Collectors;
 
-
+/**
+ * This class provides all the business logic and other functions related with the stores
+ * @author jorge castillo
+ *
+ */
 @Component
 public class StoreController {
 
@@ -23,6 +29,13 @@ public class StoreController {
     private Calculator calculator;
 
 
+    /**
+     * Return the closest stores to a given point
+     * @param lat latitude
+     * @param lng longitude
+     * @param numberOfStores qty results
+     * @return StoreDistance List
+     */
     public List<StoreDistance> getClosestStores(Double lat, Double lng, int numberOfStores){
 
         Pageable pageable = PageRequest.of(0,PAGE_SIZE);
@@ -48,6 +61,29 @@ public class StoreController {
 
     }
 
+    /**
+     * Get all the stores
+     * @return stores list
+     */
+    public List<Store> getStores(){
+    	
+        Pageable pageable = PageRequest.of(0,PAGE_SIZE);
+        Page<Store> page = storeRep.findAll(pageable);
+        var stores = new ArrayList<Store>();
+
+        while(!page.isEmpty()){
+            pageable = pageable.next();
+            stores.addAll(page.toList());    
+
+            page = storeRep.findAll(pageable);
+
+
+        }
+
+        return stores;
+    	
+    	
+    }
 
 
 

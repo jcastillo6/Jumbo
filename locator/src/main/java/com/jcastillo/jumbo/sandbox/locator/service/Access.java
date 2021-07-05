@@ -14,7 +14,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 
-
+/**
+ * Security services, login and other related methods
+ * @author jorge castillo
+ *
+ */
 @RestController
 @RequestMapping("/api/v1")
 public class Access {
@@ -30,14 +34,27 @@ public class Access {
 
 
     @PostMapping("/login")
-    public AuthenticationResponse login(@RequestBody User user) throws Exception{
+    public AuthenticationResponse login(@RequestBody User user) throws BadRequestException{
+    	
+    	if(user==null) {
+    		throw new BadRequestException("Invalid credentials");
+    	}
+    	
+    	if(user.getUserName()==null||user.getUserName().isBlank()) {
+    		throw new BadRequestException("Invalid user");
+    	}
+    	
+    	if(user.getPassword()==null||user.getPassword().isBlank()) {
+    		throw new BadRequestException("Invalid password");
+    	}
+    	
 
         try {
             var upt = new UsernamePasswordAuthenticationToken(user.getUserName(), user.getPassword());
             am.authenticate(upt);
         } catch (BadCredentialsException e) {
 
-            throw new Exception("Incorrect user name or password",e);
+            throw new BadRequestException("Incorrect user name or password");
 
         }
 
