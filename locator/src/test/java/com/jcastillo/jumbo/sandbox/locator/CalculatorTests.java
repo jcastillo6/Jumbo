@@ -7,18 +7,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
-import com.jcastillo.jumbo.sandbox.locator.distance.Calculator;
+import com.jcastillo.jumbo.sandbox.locator.service.CalculatorService;
+import com.jcastillo.jumbo.sandbox.locator.service.CalculatorServiceException;
 
 @SpringBootTest
 @ActiveProfiles(profiles = "local")
 public class CalculatorTests {
 	@Autowired
-	Calculator cal;
+	CalculatorService cal;
 	
 	@Test
 	void distanceCalculator() {
-		
-		Double result= cal.distanceCalculator(0.0, 0.0,0.0 , 0.0);
+		Double result = 0.0;
+		try {
+			result= cal.distanceCalculator(0.0, 0.0,0.0 , 0.0);
+		} catch (CalculatorServiceException e) {
+			e.printStackTrace();
+		}
 		
 		assertTrue(result.compareTo(0.0)==0);
 		
@@ -28,7 +33,14 @@ public class CalculatorTests {
 	
 	@Test
 	void distanceCalculator2() {
-		Double result= cal.distanceCalculator(100.0, 100.0,100.0 , 100.0);
+		Double result =0.0;
+		
+		try {
+			result= cal.distanceCalculator(100.0, 100.0,100.0 , 100.0);
+		} catch (CalculatorServiceException e) {
+			
+			e.printStackTrace();
+		}
 		
 		assertTrue(result.compareTo(0.0)==0);
 		
@@ -38,7 +50,15 @@ public class CalculatorTests {
 	@Test
 	void distanceCalculator3() {
 		var expectedResult=0.0071757867149520715;
-		Double result= cal.distanceCalculator(-33.502541567105524, -33.50248788892037,-70.6546920050703, -70.65467054740016);
+		Double result=0.0;
+		
+		try {
+			result= cal.distanceCalculator(-33.502541567105524, -33.50248788892037,-70.6546920050703, -70.65467054740016);
+		} catch (CalculatorServiceException e) {
+			
+			e.printStackTrace();
+		}
+		
 		assertTrue(result.compareTo(expectedResult)==0);
 		
 		
@@ -49,7 +69,7 @@ public class CalculatorTests {
 		var exceptionMsg = "";
 		try {
 			cal.distanceCalculator(null, -33.50248788892037,-70.6546920050703, -70.65467054740016);
-		}catch (IllegalArgumentException e) {
+		}catch (CalculatorServiceException e) {
 			exceptionMsg=e.getMessage();
 
 		}

@@ -1,57 +1,46 @@
 package com.jcastillo.jumbo.sandbox.locator.service;
 
-import com.jcastillo.jumbo.sandbox.locator.controller.StoreController;
-import com.jcastillo.jumbo.sandbox.locator.controller.StoreDistance;
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import com.jcastillo.jumbo.sandbox.locator.entity.Store;
 
-import org.slf4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-import java.util.List;
-
 /**
- * Store services
+ * Store services, this class define the default method to handle store request
  * @author jorge castillo
  *
  */
-@RestController
-@RequestMapping("/api/v1/store")
-public class StoreService {
-    private static final Double MIN_LATITUDE=-90.0;
-    private static final Double MAX_LATITUDE=90.0;
-    private static final Double MIN_LONGITUDE=-180.0;
-    private static final Double MAX_LONGITUDE=180.0;
-    private final Logger LOG = org.slf4j.LoggerFactory.getLogger(StoreService.class);
+public interface StoreService {
+	/**
+	 * Get the closest stores
+	 * @param lat
+	 * @param lng
+	 * @param numberOfStores
+	 * @return
+	 */
+	List<StoreDistance> getClosestStores(Double lat, Double lng, int numberOfStores);
+	/**
+	 * Get Stores
+	 * @param pageable
+	 * @return page
+	 */
+	Page<Store> getStores(Pageable pageable);
 	
-	@Autowired
-    private StoreController storeCtl;
-    
-
-
-    @GetMapping("closest")
-    public List<StoreDistance> getNearbyStores(@RequestParam("latitude") Double latitude, @RequestParam("longitude") Double longitude,
-                                               @RequestParam(value="number",defaultValue = "5") Integer no  ) throws BadRequestException{
-    	LOG.debug("getNearbyStores latitude= "+latitude+" longitude= "+longitude+" Number of records= "+no);
-    	if(latitude==null || latitude.compareTo(MIN_LATITUDE)<=0 || latitude.compareTo(MAX_LATITUDE)>=0) {
-    		throw new BadRequestException("Invalid latitude value");
-    	}
-    	if(longitude==null || longitude.compareTo(MIN_LONGITUDE)<=0 || longitude.compareTo(MAX_LONGITUDE)>=0) {
-    		throw new BadRequestException("Invalid longitude value");
-    	}
-    	
-    	LOG.info("Valid parameters, executing the request to get closest stores");
-
-        return storeCtl.getClosestStores(latitude,longitude,no);
-    }
-
-    @GetMapping("stores")
-    public List<Store> getStores() throws BadRequestException{
-    	LOG.info("Calling getStores");
-        return storeCtl.getStores();
-    }
-
+	/**
+	 * Get Store by id
+	 * @param id
+	 * @return Optional store
+	 */
+	Optional<Store> getStoreById(long id);
+	
+	/**
+	 * Create all stores 
+	 * @param stores list
+	 * @return the stores created
+	 */
+	List<Store> createAll(List<Store> stores);
 
 }

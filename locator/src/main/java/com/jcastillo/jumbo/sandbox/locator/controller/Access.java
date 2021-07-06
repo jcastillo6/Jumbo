@@ -1,7 +1,8 @@
-package com.jcastillo.jumbo.sandbox.locator.service;
+package com.jcastillo.jumbo.sandbox.locator.controller;
 
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -37,30 +38,30 @@ public class Access {
     private JwsUtil jwt;
 
 
-    @PostMapping("/login")
+    @PostMapping(value="/login",consumes = {MediaType.APPLICATION_JSON_VALUE})
     public AuthenticationResponse login(@RequestBody User user) throws BadRequestException{
     	LOG.info("AuthenticationResponse");
     	if(user==null) {
     		
-    		throw new BadRequestException("Invalid credentials");
+    		throw new BadRequestException(ErrorCode.EMPTY_CREDENTIALS);
     	}
     	
     	if(user.getUserName()==null||user.getUserName().isBlank()) {
-    		throw new BadRequestException("Invalid user");
+    		throw new BadRequestException(ErrorCode.INVALID_USER);
     	}
     	
     	if(user.getPassword()==null||user.getPassword().isBlank()) {
-    		throw new BadRequestException("Invalid password");
+    		throw new BadRequestException(ErrorCode.INVALID_PASSWORD);
     	}
     	
-    	LOG.info("Valid values");
+    	LOG.info("Valid user values");
 
         try {
             var upt = new UsernamePasswordAuthenticationToken(user.getUserName(), user.getPassword());
             am.authenticate(upt);
         } catch (BadCredentialsException e) {
-        	LOG.warn("Invalid credentials");
-            throw new BadRequestException("Incorrect user name or password");
+        	LOG.warn("Invalid user credentials");
+            throw new BadRequestException(ErrorCode.INVALID_CREDENTIALS);
 
         }
 

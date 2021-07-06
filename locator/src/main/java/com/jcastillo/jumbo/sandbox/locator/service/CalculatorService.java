@@ -1,11 +1,11 @@
-package com.jcastillo.jumbo.sandbox.locator.distance;
+package com.jcastillo.jumbo.sandbox.locator.service;
 
 /**
  * Functional interface to work with distances
  * @author jorge castillo
  *
  */
-public interface Calculator {
+public interface CalculatorService {
 
 	/**
 	 * Return the distance in KM
@@ -15,6 +15,6 @@ public interface Calculator {
 	 * @param longOfPointB longitude point b
 	 * @return distance in km
 	 */
-    public double distanceCalculator(Double latOfPointA, Double latOfPointB, Double longOfPointA, Double longOfPointB);
+    public double distanceCalculator(Double latOfPointA, Double latOfPointB, Double longOfPointA, Double longOfPointB) throws CalculatorServiceException;
 
 }

@@ -1,8 +1,11 @@
-package com.jcastillo.jumbo.sandbox.locator.distance;
+package com.jcastillo.jumbo.sandbox.locator.service.impl;
 
 
 import org.slf4j.Logger;
 import org.springframework.stereotype.Service;
+
+import com.jcastillo.jumbo.sandbox.locator.service.CalculatorService;
+import com.jcastillo.jumbo.sandbox.locator.service.CalculatorServiceException;
 
 /**
  * Default distance calculator provider, this is base on the following formula
@@ -15,16 +18,16 @@ import org.springframework.stereotype.Service;
  * The values used for the radius of the Earth (3961 miles & 6373 km)
  */
 @Service
-public class CalculatorProvider implements Calculator {
+public class DefaultCalculatorServiceImpl implements CalculatorService {
     private final int RADIUS_OF_THE_EARTH=6373;
-    private final Logger LOG = org.slf4j.LoggerFactory.getLogger(CalculatorProvider.class);
+    private final Logger LOG = org.slf4j.LoggerFactory.getLogger(DefaultCalculatorServiceImpl.class);
 
 
     @Override
-    public double distanceCalculator(Double latOfPointA, Double latOfPointB, Double longOfPointA, Double longOfPointB) {
+    public double distanceCalculator(Double latOfPointA, Double latOfPointB, Double longOfPointA, Double longOfPointB) throws CalculatorServiceException {
     	LOG.debug("lat of a= "+latOfPointA+" lat of b="+latOfPointB+" longt of a="+longOfPointA + " longt of b="+ longOfPointB);
     	if(latOfPointA==null || latOfPointB==null || longOfPointA==null || longOfPointB==null)
-    		throw new IllegalArgumentException("Invalid parameters");
+    		throw new CalculatorServiceException("Invalid parameters");
     	var lgA = Math.toRadians(longOfPointA);
     	var lgB = Math.toRadians(longOfPointB);
     	var ltA = Math.toRadians(latOfPointA);

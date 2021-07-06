@@ -1,4 +1,4 @@
-package com.jcastillo.jumbo.sandbox.locator.controller;
+package com.jcastillo.jumbo.sandbox.locator.service;
 
 import com.jcastillo.jumbo.sandbox.locator.entity.Store;
 import lombok.*;
