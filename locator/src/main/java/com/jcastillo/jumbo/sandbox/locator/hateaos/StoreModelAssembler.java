@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-import com.jcastillo.jumbo.sandbox.locator.controller.StoreControllerImpl;
+import com.jcastillo.jumbo.sandbox.locator.controller.StoreController;
 import com.jcastillo.jumbo.sandbox.locator.entity.Store;
 
 @Component
@@ -17,7 +17,7 @@ public class StoreModelAssembler implements RepresentationModelAssembler<Store, 
 	@Override
 	public StoreModel toModel(Store entity) {
 		StoreModel storeModel = new StoreModel();
-		storeModel.add(linkTo(methodOn(StoreControllerImpl.class).getStoreById(entity.getId())).withSelfRel());
+		storeModel.add(linkTo(methodOn(StoreController.class).getStoreById(entity.getId())).withSelfRel());
 		storeModel.setId(entity.getId());
 		storeModel.setAddressName(entity.getAddressName());
 		storeModel.setCity(entity.getCity());
