@@ -1,17 +1,28 @@
 package com.jcastillo.jumbo.sandbox.locator.hateaos;
 
 
-import org.springframework.hateoas.server.RepresentationModelAssembler;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
 import org.springframework.stereotype.Component;
 
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import com.jcastillo.jumbo.sandbox.locator.controller.StoreController;
 import com.jcastillo.jumbo.sandbox.locator.entity.Store;
 
 @Component
-public class StoreModelAssembler implements RepresentationModelAssembler<Store, StoreModel> {
+public class StoreModelAssembler extends RepresentationModelAssemblerSupport<Store, StoreModel> {
+	private static final Pageable DEFAULT_PAGEABLE = PageRequest.of(0, 10);
+	
 
+
+
+	public StoreModelAssembler() {
+		super(StoreController.class, StoreModel.class);
+	}
 
 
 	@Override
@@ -32,6 +43,15 @@ public class StoreModelAssembler implements RepresentationModelAssembler<Store, 
 
 		return storeModel;
 	}
+	
+    @Override
+    public CollectionModel<StoreModel> toCollectionModel(Iterable<? extends Store> entries) {
+    	CollectionModel<StoreModel> storeModels = super.toCollectionModel(entries);
+    	storeModels.add(linkTo(methodOn(StoreController.class).getStores(DEFAULT_PAGEABLE)).withSelfRel());
+    	return storeModels;
+    	
+
+    }
 
 
 

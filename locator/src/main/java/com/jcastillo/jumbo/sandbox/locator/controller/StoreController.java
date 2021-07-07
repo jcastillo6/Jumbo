@@ -9,8 +9,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.PagedModel;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -68,22 +71,22 @@ public class StoreController {
 	}
 
 	@GetMapping(value = "stores", produces = { MediaType.APPLICATION_JSON_VALUE })
-	public PagedModel<StoreModel> getStores(
+	public ResponseEntity<PagedModel<StoreModel>> getStores(
 			@PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE) Pageable pageRequest)
 			throws BadRequestException {
 
 		LOG.info("Calling getStores");
 		LOG.debug("Pageable page = " + pageRequest.getPageNumber() + " size = " + pageRequest.getPageNumber());
 		Page<Store> page = storeCtl.getStores(pageRequest);
-
-		return pagedRsc.toModel(page, stmAssb);
+		
+		return new ResponseEntity<>( pagedRsc.toModel(page, stmAssb),HttpStatus.OK);
 	}
 
 	
 
 	@PostMapping("/stores/createall")
 	@ResponseBody
-	public List<Store> createAll(@RequestBody List<Store> stores) throws BadRequestException {
+	public ResponseEntity<CollectionModel<StoreModel>> createAll(@RequestBody List<Store> stores) throws BadRequestException {
 		LOG.info("Calling createAll");
 		if (stores == null || stores.isEmpty()) {
 			throw new BadRequestException(ErrorCode.INVALID_STORES);
@@ -91,12 +94,16 @@ public class StoreController {
 		LOG.debug("Stores send " + stores.size());
 
 		List<Store> storesCreated = storeCtl.createAll(stores);
+		if(stores==null || storesCreated.isEmpty()) {
+			throw new BadRequestException(ErrorCode.ERROR_SAVING_STORES);				
+		}
 
-		return storesCreated;
+		return new ResponseEntity<>(stmAssb.toCollectionModel(storesCreated),HttpStatus.CREATED);
+	
 	}
 
 	@GetMapping("stores/{id}")
-	public Store getStoreById(@PathVariable("id") long id) {
+	public ResponseEntity<StoreModel> getStoreById(@PathVariable("id") long id) {
 		LOG.info("Calling getStoreById");
 		if (id < 0) {
 			throw new BadRequestException(ErrorCode.INVALID_STORE_ID);
@@ -104,8 +111,10 @@ public class StoreController {
 		LOG.debug("id = " + id);
 
 		Optional<Store> opStore = storeCtl.getStoreById(id);
-
-		return opStore.orElseThrow(() -> new BadRequestException(ErrorCode.NOT_FOUND_STORE));
+		Store store = opStore.orElseThrow(() -> new BadRequestException(ErrorCode.NOT_FOUND_STORE));
+		
+		return new ResponseEntity<>(stmAssb.toModel(store),HttpStatus.OK);
+		
 	}
 
 }

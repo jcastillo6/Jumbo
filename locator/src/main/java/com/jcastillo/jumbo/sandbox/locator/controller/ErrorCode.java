@@ -16,7 +16,8 @@ public enum ErrorCode {
 	INVALID_LONGITUDE(2002,"The longitude value is not valid"),
 	INVALID_STORES(2003,"Invalid stores records"), 
 	INVALID_STORE_ID(2004,"Invalid store Id"), 
-	NOT_FOUND_STORE(2005,"The store doesnt exist");
+	NOT_FOUND_STORE(2005,"The store doesnt exist"), 
+	ERROR_SAVING_STORES(2006,"An error happen while trying to save the store data");
 	
 
 	private int errorCode;
