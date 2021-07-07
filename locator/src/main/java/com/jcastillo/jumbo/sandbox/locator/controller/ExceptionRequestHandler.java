@@ -7,12 +7,22 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ControllerAdvice
-public class BadRequestHandler {
+public class ExceptionRequestHandler {
     @ExceptionHandler(BadRequestException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ResponseBody
-    public BadRequestResponse processValidationError(BadRequestException ex) {
-        BadRequestResponse badResponse = new BadRequestResponse();
+    public ExceptionRequestResponse processValidationError(BadRequestException ex) {
+        ExceptionRequestResponse badResponse = new ExceptionRequestResponse();
+        badResponse.setErrorCode(ex.getErrorCode().getErrorCode());
+        badResponse.setErrorMessage(ex.getErrorCode().getMsg());
+        return badResponse;
+    }
+    
+    @ExceptionHandler(NotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ResponseBody
+    public ExceptionRequestResponse NotFoundError(NotFoundException ex) {
+        ExceptionRequestResponse badResponse = new ExceptionRequestResponse();
         badResponse.setErrorCode(ex.getErrorCode().getErrorCode());
         badResponse.setErrorMessage(ex.getErrorCode().getMsg());
         return badResponse;

@@ -16,10 +16,10 @@ import com.jcastillo.jumbo.sandbox.locator.entity.Store;
 public interface StoreService {
 	/**
 	 * Get the closest stores
-	 * @param lat
-	 * @param lng
-	 * @param numberOfStores
-	 * @return
+	 * @param lat latitude
+	 * @param lng longitude
+	 * @param numberOfStores to return
+	 * @return list of store distance object
 	 */
 	List<StoreDistance> getClosestStores(Double lat, Double lng, int numberOfStores);
 	/**

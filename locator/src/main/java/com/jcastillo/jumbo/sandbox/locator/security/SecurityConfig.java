@@ -24,6 +24,7 @@ import org.springframework.web.cors.CorsConfiguration;
  */
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter{
+
     @Autowired
     private DefaultUserDetailService dfUsrSrv;
 
@@ -32,6 +33,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
     
     @Value("${frontend.url}")
     private String frontendURL;
+    
+    
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception{
@@ -42,7 +45,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 
     @Override
     protected void configure(HttpSecurity http) throws Exception{
-        http.csrf().disable().authorizeRequests().antMatchers("/api/v1/login")
+        http.csrf().disable().authorizeRequests().antMatchers("/api/v1/login","/swagger-ui/","/swagger-resources/**", "/swagger-ui.html", "/v2/api-docs", "/webjars/**","/swagger-ui/**","/v3/api-docs")
                 .permitAll().anyRequest().authenticated().and().sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and().cors().configurationSource(request -> {

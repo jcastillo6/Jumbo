@@ -2,7 +2,9 @@ package com.jcastillo.jumbo.sandbox.locator.controller;
 
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -15,6 +17,12 @@ import com.jcastillo.jumbo.sandbox.locator.security.AuthenticationResponse;
 import com.jcastillo.jumbo.sandbox.locator.security.DefaultUserDetailService;
 import com.jcastillo.jumbo.sandbox.locator.security.JwsUtil;
 import com.jcastillo.jumbo.sandbox.locator.security.User;
+
+import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+
+
 
 
 /**
@@ -39,7 +47,12 @@ public class Access {
 
 
     @PostMapping(value="/login",consumes = {MediaType.APPLICATION_JSON_VALUE})
-    public AuthenticationResponse login(@RequestBody User user) throws BadRequestException{
+    @ApiOperation("Login request, it returns a token to get access to the api")
+    @ApiResponses(value = { @ApiResponse(responseCode =  "200", description = "Success, return a valid token"),
+    		@ApiResponse(responseCode =  "400", description = "Bad request parameter, the service can return a message in the body with the "
+    				+ "following information: {errorCode: 1000, message: The credential values are not valid, please check the user and password are requiered},"
+    				+ "{errorCode 1001,message: The user name is mandatory}, {errorCode: 1002,message: The password is mandatory}, {errorCode: 1003, message: the user or password are incorrect, please check} ")})
+    public ResponseEntity<AuthenticationResponse> login(@RequestBody User user) throws BadRequestException{
     	LOG.info("AuthenticationResponse");
     	if(user==null) {
     		
@@ -68,7 +81,7 @@ public class Access {
         var userDetails = duds.loadUserByUsername(user.getUserName());
 
 
-        return new AuthenticationResponse(jwt.generateToken(userDetails));
+        return new ResponseEntity<>(new AuthenticationResponse(jwt.generateToken(userDetails)),HttpStatus.OK);
 
 
     }

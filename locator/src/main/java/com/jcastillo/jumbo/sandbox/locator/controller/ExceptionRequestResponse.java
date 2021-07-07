@@ -7,7 +7,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Setter
 @Getter
-public class BadRequestResponse {
+public class ExceptionRequestResponse {
     private int errorCode;
     private String errorMessage;
 }

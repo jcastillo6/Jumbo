@@ -5,17 +5,14 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-/**
- * Wrapper exception to handle the common errors
- * @author jorge castillo
- *
- */
 @AllArgsConstructor
 @Getter
 @Setter
 @ToString
-public class BadRequestException extends RuntimeException  {
+public class NotFoundException extends RuntimeException{
 	
-    private ErrorCode errorCode; 
+	private ErrorCode errorCode;
+	
+		
 
 }
