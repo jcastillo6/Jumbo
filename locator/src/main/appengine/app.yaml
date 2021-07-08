@@ -1,4 +1,5 @@
 runtime: java11
+service: jumbo-service
 instance_class: B4_1G
 manual_scaling:
   instances: 2
