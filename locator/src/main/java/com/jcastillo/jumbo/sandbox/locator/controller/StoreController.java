@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -33,6 +34,8 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 
+
+
 /**
  * Store services
  * 
@@ -41,7 +44,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
  */
 @RestController
 @RequestMapping("/api/v1/")
-
+@RefreshScope
 public class StoreController {
 	private static final Logger LOG = org.slf4j.LoggerFactory.getLogger(StoreController.class);
 	private static final Double MIN_LATITUDE = -90.0;

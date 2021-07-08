@@ -55,8 +55,12 @@ class LocatorApplicationTests {
     
 	private String token;
 	
+	@Autowired
+	private CalculatorService cal;
 	
-	
+	@Autowired
+	private StoreService strSrv;
+
 	
 	
     @BeforeAll
@@ -377,8 +381,7 @@ class LocatorApplicationTests {
     @DisplayName("Calculator Service")
     class CalculatorServiceTest{
     	
-    	@Autowired
-    	CalculatorService cal;
+
     	
     	@Test
     	void distanceCalculator() throws CalculatorServiceException {
@@ -422,10 +425,7 @@ class LocatorApplicationTests {
     @Nested
     @DisplayName("Store Service")
     class StoreServiceTest{
-    	@Autowired
-    	StoreService strSrv;
-    	@Autowired
-    	StoreRepository storeRep;
+
     	@Test
     	public void getClosestStoresTest() {
     		populateStoreDB();
