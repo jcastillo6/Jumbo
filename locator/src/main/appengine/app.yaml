@@ -6,3 +6,4 @@ manual_scaling:
 env_variables:
   SPRING_PROFILES_ACTIVE: cloud
   FRONTEND_URL: XXXXXX
+  DB_SERVICE_NAME: XXXXXX
