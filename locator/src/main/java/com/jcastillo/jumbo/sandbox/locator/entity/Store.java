@@ -25,19 +25,26 @@ public class Store {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String city;
+    @Column(unique = true,nullable = false,name="postalcode")
     private String postalCode;
     private String street;
     private String street2;
     private String street3;
-    @Column(unique = true,nullable = false)
+    @Column(unique = true,nullable = false,name="addressname")
     private String addressName;
     private Double longitude;
     private Double latitude;
+    @Column(name="complexnumber")
     private Integer complexNumber;
+    @Column(name="locationtype")
     private String locationType;
+    @Column(name="collectionpoint")
     private Boolean collectionPoint;
+    @Column(name="todayopen")
     private String todayOpen;
+    @Column(name="todayclose")
     private String todayClose;
+    @Column(name="sapstoreid")
     private long sapStoreID;
 
 
