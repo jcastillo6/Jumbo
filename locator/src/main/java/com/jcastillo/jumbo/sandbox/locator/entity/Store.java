@@ -15,13 +15,14 @@ import lombok.Setter;
  * @author jorge castillo
  *
  */
+
 @NoArgsConstructor
 @Setter
 @Getter
 @Entity
 public class Store {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String city;
     private String postalCode;
