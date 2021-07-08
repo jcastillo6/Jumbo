@@ -4,3 +4,4 @@ manual_scaling:
   instances: 2
 env_variables:
   SPRING_PROFILES_ACTIVE: cloud
+  FRONTEND_URL: XXXXXX
