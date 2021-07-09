@@ -5,14 +5,15 @@ import { Observable } from 'rxjs';
 export class AuthFilter implements HttpInterceptor {
 
 intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    const token = localStorage.getItem('token');
-    console.log("inside the filter:  "+token)
-if (!token) {
-      return next.handle(req);
-    }
-const headers = req.clone({
-      headers: req.headers.set('Authorization', `Bearer ${token}`)
+  const user = JSON.parse(localStorage.getItem('user')||'[]');
+  console.log("inside the filter:  "+user.userName+" token "+user.jwt )
+  if (!user || !user.jwt) {
+    console.log("errororo handler");
+    return next.handle(req);
+  }
+  const headers = req.clone({
+    headers: req.headers.set('Authorization', `Bearer ${user.jwt}`)
     });
-return next.handle(headers);
+  return next.handle(headers);
   }
 }

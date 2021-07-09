@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Emitters } from '../emitters/emitters';
+import { AccountServiceService } from '../services/account-service.service';
 
 @Component({
   selector: 'app-nav',
@@ -9,7 +10,7 @@ import { Emitters } from '../emitters/emitters';
 export class NavComponent implements OnInit {
 
   authenticated =false;
-  constructor() { }
+  constructor(private accountService:AccountServiceService) { }
 
   ngOnInit(): void {
     Emitters.authEmitter.subscribe((aut: boolean) => {
@@ -18,8 +19,7 @@ export class NavComponent implements OnInit {
   }
 
   logout(): void{
-    this.authenticated=false;
-    localStorage.clear();
+    this.accountService.logout();
   }
 
 }

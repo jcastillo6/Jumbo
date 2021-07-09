@@ -2,8 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { environment } from 'src/environments/environment';
-import { Emitters } from '../emitters/emitters';
+import { first } from 'rxjs/operators';
+import { AccountServiceService } from '../services/account-service.service';
 
 export interface TokenResponse{
   jwt: string
@@ -21,7 +21,7 @@ export class LoginComponent implements OnInit {
   password:FormControl;
   
 
-  constructor(private http:HttpClient,private router:Router) { 
+  constructor(private http:HttpClient,private router:Router,private accountService:AccountServiceService) { 
     this.userName =new FormControl('',Validators.required);
     this.password=new FormControl('',Validators.required);
 
@@ -36,36 +36,23 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  getUsername(){return this.form.get('userName');}
-  getPassword(){return this.form.get('password');}
+  getUsername(){return this.form.controls.userName.value}
+  getPassword(){return this.form.controls.password.value}
 
    onSubmit() {
-    let password=this.getPassword()?.value;
-    let username=this.getUsername()?.value;
-    localStorage.clear();
-    console.log(this.form.getRawValue());
-    this.http.post<TokenResponse>(environment.backend+"/login",this.form.getRawValue()).subscribe((resp:TokenResponse)=>{
-      if(resp){
-       
-        localStorage.setItem('token',resp.jwt);
-        Emitters.authEmitter.emit(true);
-        this.router.navigate(['/']);
-        console.log("Login success");
-        
-
-      }
-      },
-      err =>
-      {
-        Emitters.authEmitter.emit(false);
-        this.invalidLogin=true;
-        this.userName.reset();
-        this.password.reset();
-
-      }
-
-
-    );   
+    
+    this.accountService.login(this.getUsername(),this.getPassword()).pipe(first()).subscribe({
+        next: () => {
+            this.router.navigate(['/']);
+            
+        },
+        error: error => {
+          console.log("Login error");
+          this.invalidLogin=true;
+          this.userName.reset();
+          this.password.reset();
+        }
+    });
     
   }
   

@@ -2,9 +2,9 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { environment } from 'src/environments/environment';
-import { Emitters } from '../emitters/emitters';
 import { StoreDistance } from '../model/storeDistance';
+import { AccountServiceService } from '../services/account-service.service';
+import { StoreServiceService } from '../services/store-service.service';
 
 
 @Component({
@@ -17,10 +17,9 @@ export class HomeComponent implements OnInit {
   latitude:FormControl;
   longitude:FormControl;
   storeDistances:StoreDistance[]=[];
-  authenticated =false;
   serviceError=false;
 
-  constructor(private http:HttpClient,private router:Router ) { 
+  constructor(private http:HttpClient,private router:Router,private accountService:AccountServiceService,private storeService:StoreServiceService) { 
     this.latitude =new FormControl('',[Validators.required,Validators.pattern(/^[.\d]+$/)]);
     this.longitude=new FormControl('',[Validators.required,Validators.pattern(/^[.\d]+$/)]);
     this.form =new FormGroup({
@@ -30,37 +29,29 @@ export class HomeComponent implements OnInit {
 
   }
 
-  getLatitude(){return this.form.get('latitude');}
-  getLongitude(){return this.form.get('longitude');}
+  getLatitude(){return this.form.controls.latitude.value;}
+  getLongitude(){return this.form.controls.longitude.value;}
 
   ngOnInit(): void {
-    Emitters.authEmitter.subscribe((aut: boolean) => {
-      this.authenticated = aut;
-    } );
-    
+  
+    if(!this.accountService.userValue.userName)
+      this.router.navigate(["/login"]);
 
   }
 
   onSubmit(){
     this.serviceError=false; 
+    this.storeService.getNearbyStores(this.getLatitude(),this.getLongitude()).subscribe((result:StoreDistance[])=>{
+      this.storeDistances=result;
+    },
+    err =>{
+      err.error.errorCode
+      if(err.error && err.error.errorCode)
+      console.log(`Error occur while calling nearbay stores, errorCode= ${err.error.errorCode} errorMessage= ${err.error.errorMessage}`);
+      
+      this.serviceError=true;
 
-    if(localStorage.getItem('token')===null){
-      this.router.navigate(['/login']);
-      return;
-    }
-
-    let lat=this.form.get('latitude')?.value;
-    let lgt=this.form.get('longitude')?.value;
-    this.http.get<StoreDistance[]>(environment.backend+'/store/closest?latitude='+lat+'&longitude='+lgt).subscribe(
-      (res:StoreDistance[])=>{
-        this.storeDistances=res;
-         
-      },
-      err =>{
-        this.serviceError=true;  
-        console.log(err);
-      }
-    );
+    });
     this.latitude.reset();
     this.longitude.reset();
 
