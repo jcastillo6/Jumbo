@@ -1,14 +1,20 @@
-# [START runtime]
 runtime: python27
-threadsafe: yes
-service: jumbo-frontend
-# [END runtime]
+api_version: 1
+threadsafe: true
 handlers:
-- url: /(.+)
-  static_files: dist/\1
-  upload: dist/(.*)
 - url: /
-  static_files: dist/index.html
-  upload: dist/index.html
+  static_files: dist/jumbo-frontend/index.html
+  upload: dist/jumbo-frontend/index.html
+- url: /
+  static_dir: dist/jumbo-frontend
+
 skip_files:
-- ^(?!dist)  # Skip any files not in the dist folder
+  - e2e/
+  - node_modules/
+  - src/
+  - coverage
+  - ^(.*/)?\..*$
+  - ^(.*/)?.*\.json$
+  - ^(.*/)?.*\.md$
+  - ^(.*/)?.*\.yaml$
+  - ^LICENSE
