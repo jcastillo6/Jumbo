@@ -1,5 +1,8 @@
 <div class="list-group">
     <h5 class="title-label">Nearby</h5>
+    <p *ngIf="!storeDistances || !storeDistances?.length">
+      Not stores found, to create stores go to load stores
+    </p>
     <a *ngFor="let strDst of storeDistances" href="#" class="list-group-item list-group-item-action flex-column align-items-start">
         <div class="d-flex w-100 justify-content-between">
           <h5 class="mb-1">{{strDst.store.addressName}}</h5>
