@@ -119,9 +119,10 @@ public class StoreController {
 			throw new BadRequestException(ErrorCode.INVALID_STORES);
 		}
 		LOG.debug("Stores send " + stores.size());
-
-		List<Store> storesCreated = storeCtl.createAll(stores);
-		if (storesCreated == null || storesCreated.isEmpty()) {
+		List<Store> storesCreated = null;
+		try {
+			storesCreated = storeCtl.createAll(stores);
+		}catch(Exception e) {
 			throw new BadRequestException(ErrorCode.ERROR_SAVING_STORES);
 		}
 

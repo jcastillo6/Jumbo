@@ -40,7 +40,8 @@ public interface StoreService {
 	 * Create all stores 
 	 * @param stores list
 	 * @return the stores created
+	 * @throws Exception 
 	 */
-	List<Store> createAll(List<Store> stores);
+	List<Store> createAll(List<Store> stores) throws Exception;
 
 }

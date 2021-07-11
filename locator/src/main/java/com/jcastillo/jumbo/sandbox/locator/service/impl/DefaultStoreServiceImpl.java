@@ -130,7 +130,7 @@ public class DefaultStoreServiceImpl implements StoreService {
 	 * @param stores list of stores to save
 	 * @return the stores saved
 	 */
-	public List<Store> createAll(List<Store> stores) {
+	public List<Store> createAll(List<Store> stores) throws Exception {
 		if (stores == null) {
 			throw new IllegalArgumentException("Stores is mandatory");
 
@@ -141,8 +141,9 @@ public class DefaultStoreServiceImpl implements StoreService {
 		Iterable<Store> itStores= new ArrayList<>();
 		try {
 			itStores=storeRep.saveAll(stores);
-		} catch (IllegalArgumentException e) {
+		} catch (Exception e) {
 			LOG.warn("Error while creating the stores", e);
+			throw e;
 		}
 		
 		itStores.forEach(result::add);

@@ -35,7 +35,7 @@ public class DefaultCalculatorServiceImpl implements CalculatorService {
         var dlon = lgA - lgB;
         var dlat = ltA - ltB;
         // the original formula Math.pow(Math.sin(dlat/2),2) + Math.cos(lat1) * Math.cos(lat2) * Math.pow(Math.sin(dlon/2),2);
-        var a = Math.pow(Math.sin(dlat/2),2)+Math.cos(ltA)*Math.cos(ltB)*Math.pow(Math.sin(dlon),2);
+        var a = Math.pow(Math.sin(dlat/2),2)+Math.cos(ltA)*Math.cos(ltB)*Math.pow(Math.sin(dlon/2),2);
         var c = 2 * Math.atan2(Math.sqrt(a),Math.sqrt(1-a));
         var d =  RADIUS_OF_THE_EARTH * c;
         LOG.debug("Calculation result in KM ="+d);
