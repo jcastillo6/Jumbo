@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   backend: 'http://localhost:8080/api/v1',
-  googleKey : 'AIzaSyB8y3SqIWXPmR0ARzZY2sceBlb6qEUkrlE'
+  googleKey : 'XXXXXXXXXXXXXXXXXXXXXXXX'
 };
 
 /*
