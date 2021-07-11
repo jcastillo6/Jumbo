@@ -1,0 +1,19 @@
+<div class="storeLoader-container">
+    <h1 class="title-label">
+        Store Loader
+    </h1>
+    <h6 class="title-label">Please enter your store object array in json format</h6>
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="form-signin">
+        <div class="alert alert-success" *ngIf="success && requestMade">
+            Success!
+        </div>
+        <div *ngIf="!success && requestMade"class="alert alert-danger">
+            Oops an error happend, please try again
+        </div>
+        <div [hidden]="objectText.valid || objectText.pristine"  class="alert alert-danger">
+            The json object must be an arrays of stores and the max length allow is 10000
+        </div>
+        <textarea formControlName="objectText" class="form-control" placeholder="text"  rows=20 required maxlength="10000"></textarea>   
+        <button class="w-100 btn btn-lg btn-primary" [disabled]="form.invalid" type="submit">Submit</button>
+    </form>
+</div>

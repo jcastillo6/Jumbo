@@ -12,6 +12,7 @@ import { StorelistComponent } from './storelist/storelist.component';
 import { AgmCoreModule } from '@agm/core';
 import { environment } from 'src/environments/environment';
 import { MapComponent } from './map/map.component';
+import { StoreloaderComponent } from './storeloader/storeloader.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { MapComponent } from './map/map.component';
     NavComponent,
     HomeComponent,
     StorelistComponent,
-    MapComponent
+    MapComponent,
+    StoreloaderComponent
   ],
   imports: [
     BrowserModule,

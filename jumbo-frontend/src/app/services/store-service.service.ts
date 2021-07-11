@@ -16,6 +16,11 @@ export class StoreServiceService {
   public getNearbyStores(lat:number,lng:number) : Observable<StoreDistance[]>{
     return this.http.get<StoreDistance[]>(`${environment.backend}/stores/nearbystores?latitude=${lat}&longitude=${lng}`);
   }
+
+  public createAll(stores:Store[]) : Observable<Store[]>{
+    return this.http.post<Store[]>(`${environment.backend}/stores/createall`, stores);
+
+  }
   
 
 }

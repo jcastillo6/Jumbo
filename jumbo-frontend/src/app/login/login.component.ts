@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -22,7 +22,7 @@ export class LoginComponent implements OnInit {
   password:FormControl;
   
 
-  constructor(private http:HttpClient,private router:Router,private accountService:AccountServiceService,private locationService:LocationService) { 
+  constructor(private router:Router,private accountService:AccountServiceService,private locationService:LocationService) { 
     this.userName =new FormControl('',Validators.required);
     this.password=new FormControl('',Validators.required);
 
@@ -37,10 +37,10 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  getUsername(){return this.form.controls.userName.value}
-  getPassword(){return this.form.controls.password.value}
+  private getUsername(): string {return this.form.controls.userName.value}
+  private getPassword(): string {return this.form.controls.password.value}
 
-   onSubmit() {
+  public onSubmit() {
     
     this.accountService.login(this.getUsername(),this.getPassword()).pipe(first()).subscribe({
         next: () => {

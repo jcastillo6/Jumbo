@@ -27,7 +27,7 @@ export class AccountServiceService {
   }
   
 
-  public login(userName:string, password:string) {
+  public login(userName:string, password:string): Observable<User> {
     
     return this.http.post<User>(`${environment.backend}/login`, { userName, password })
         .pipe(map((user: User)=> {
