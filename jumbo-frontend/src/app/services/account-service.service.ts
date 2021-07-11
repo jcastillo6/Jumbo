@@ -25,8 +25,10 @@ export class AccountServiceService {
   public get userValue(): User {
       return this.userSubject.value;
   }
+  
 
-  login(userName:string, password:string) {
+  public login(userName:string, password:string) {
+    
     return this.http.post<User>(`${environment.backend}/login`, { userName, password })
         .pipe(map((user: User)=> {
             // store user details and jwt token in local storage to keep user logged in between page refreshes
@@ -39,9 +41,9 @@ export class AccountServiceService {
 
   }
 
-  logout() {
-    // remove user from local storage and set current user to null
-    localStorage.removeItem('user');
+  public logout() {
+    // remove all data
+    localStorage.clear();
     // invalid user
     this.userSubject.next({userName: null,jwt: null});
     this.router.navigate(['/login']);

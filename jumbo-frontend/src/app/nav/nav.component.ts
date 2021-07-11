@@ -16,6 +16,15 @@ export class NavComponent implements OnInit {
     Emitters.authEmitter.subscribe((aut: boolean) => {
       this.authenticated = aut;
     } );
+    
+    if(this.accountService.userValue.userName==null){
+      Emitters.authEmitter.next(false);
+    }
+    else{
+      Emitters.authEmitter.next(true);
+    }
+
+
   }
 
   logout(): void{

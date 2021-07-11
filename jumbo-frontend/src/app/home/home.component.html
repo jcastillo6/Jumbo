@@ -1,16 +1,18 @@
-<form [formGroup]="form" (ngSubmit)="onSubmit()" class="form-signin">
-    <h1 class="h3 mb-3 fw-normal">Nearby Stores</h1>
-    <p>Please enter you location</p>
-    <div  class="form-error">
-        <strong *ngIf="serviceError" >Something happend please try with others values</strong>
-        <br/>
-        <strong *ngIf="latitude.invalid && (latitude.dirty || latitude.touched)" >Latitude is required, the decimal separation character is .</strong>
-        <br/>
-        <strong *ngIf="longitude.invalid && (longitude.dirty || longitude.touched)" >Longitud is required, the decimal separation character is .</strong>
+<div class=home-container>
+    <h1 class="title-label">Find your Jumbo store</h1>
+    <div class="home-form">    
+        <div class="button-container">
+            <button class="w-100 btn btn-lg btn-outline-primary" (click)="displayForm()" *ngIf="!showForm">I want to enter my position</button>
+        </div>
+        <form [formGroup]="form" (ngSubmit)="onSubmit()" class="form-signin" *ngIf="showForm">
+            <p>Please enter you location</p>
+            <input formControlName="latitude" class="form-control"  placeholder="Latitude" type="number" required>
+            <input formControlName="longitude" class="form-control" placeholder="Longitude" type="number" required>
+            <button class="w-100 btn btn-lg btn-primary" [disabled]="form.invalid" type="submit">Search</button>
+        </form>
+    </div>    
+    <div class="home-child">
+        <app-map [storeDistances]="storeDistances" [location]="location"></app-map>
+        <app-storelist [storeDistances]="storeDistances"></app-storelist>
     </div>
-    <input formControlName="latitude" class="form-control"  placeholder="Latitude" required>
-    <input formControlName="longitude" class="form-control" placeholder="Longitude" required>
-
-    <button class="w-100 btn btn-lg btn-primary" [disabled]="form.invalid" type="submit">Search</button>
-  </form>
-  <app-storelist [storeDistances]="storeDistances"></app-storelist>
+</div>

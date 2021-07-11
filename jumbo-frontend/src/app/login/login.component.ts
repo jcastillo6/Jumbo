@@ -4,6 +4,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { first } from 'rxjs/operators';
 import { AccountServiceService } from '../services/account-service.service';
+import { LocationService } from '../services/location.service';
 
 export interface TokenResponse{
   jwt: string
@@ -21,7 +22,7 @@ export class LoginComponent implements OnInit {
   password:FormControl;
   
 
-  constructor(private http:HttpClient,private router:Router,private accountService:AccountServiceService) { 
+  constructor(private http:HttpClient,private router:Router,private accountService:AccountServiceService,private locationService:LocationService) { 
     this.userName =new FormControl('',Validators.required);
     this.password=new FormControl('',Validators.required);
 

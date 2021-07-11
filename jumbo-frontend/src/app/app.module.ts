@@ -9,6 +9,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthFilter } from './Interceptors/authFilter';
 import { StorelistComponent } from './storelist/storelist.component';
+import { AgmCoreModule } from '@agm/core';
+import { environment } from 'src/environments/environment';
+import { MapComponent } from './map/map.component';
 
 @NgModule({
   declarations: [
@@ -16,14 +19,18 @@ import { StorelistComponent } from './storelist/storelist.component';
     LoginComponent,
     NavComponent,
     HomeComponent,
-    StorelistComponent
+    StorelistComponent,
+    MapComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    AgmCoreModule.forRoot({
+      apiKey: environment.googleKey
+    })
     
   ],
   providers: [ { provide: HTTP_INTERCEPTORS, useClass: AuthFilter, multi: true}],

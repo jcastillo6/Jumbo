@@ -1,0 +1,16 @@
+<div class="map-container">
+<p>Your position: latitude = {{location.latitude}},longitude = {{location.longitude}}</p>
+<agm-map [latitude]="location.latitude" [longitude]="location.longitude" [mapTypeId]="mapType" [zoom]="zoom" [fitBounds]="true">
+    <agm-marker [latitude]="location.latitude" [longitude]="location.longitude" [agmFitBounds]="true" [iconUrl]="iconUrl">
+        <agm-info-window>
+            My Location
+        </agm-info-window>
+    </agm-marker>
+
+    <agm-marker *ngFor="let storeDistance of storeDistances" [latitude]="storeDistance.store.latitude" [longitude]="storeDistance.store.longitude" [agmFitBounds]="true">
+        <agm-info-window>
+            {{storeDistance.store.addressName}}
+        </agm-info-window>
+    </agm-marker>
+</agm-map>
+</div>

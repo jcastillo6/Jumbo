@@ -5,15 +5,7 @@ body{
 }
 
 main {
-  display: -ms-flexbox;
-  display: -webkit-box;
-  display: flex;
-  -ms-flex-align: center;
-  -ms-flex-pack: center;
-  -webkit-box-align: center;
- 
-  -webkit-box-pack: center;
-  justify-content: center;
+  display: inline;
   padding-top: 40px;
   padding-bottom: 40px;
 
@@ -54,13 +46,14 @@ main {
   margin-top: 30px;
 
 }
+
+
+
   .form-error{
       color:red;
 
 
   }
-
-  
 
   .navbar-logo{
     width: 300px;  
@@ -78,4 +71,48 @@ main {
     box-sizing: inherit;
 
   }
+  
+  .home-child{
+    display: flex;
+    justify-content: center;
+    margin-top: 2%;
+   
 
+  }
+  .button-container{
+    
+    margin: auto;
+    width: 50%;
+    width:fit-content;
+
+  }
+ 
+  .list-group{
+    width: 100%;
+    margin-left: 15px;
+    flex-grow: 1;
+
+  }
+
+  agm-map{    
+    width: 500px;
+    height: 500px;
+    margin-top: 5%;
+    flex-grow: 1;
+  }
+
+/* Medium screens */
+@media all and (max-width: 800px) {
+  .main {
+    /* When on medium sized screens, we center it by evenly distributing empty space around items */
+    justify-content: space-around;
+  }
+}
+
+/* Small screens */
+@media all and (max-width: 500px) {
+  .main {
+    /* On small screens, we are no longer using row direction but column */
+    flex-direction: column;
+  }
+}
