@@ -1,6 +1,7 @@
 # [START runtime]
 runtime: python27
 threadsafe: yes
+service: jumbo-frontend
 # [END runtime]
 handlers:
 - url: /(.+)
