@@ -25,7 +25,7 @@ public class Store {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String city;
-    @Column(unique = true,nullable = false,name="postalcode")
+    @Column(name="postalcode")
     private String postalCode;
     private String street;
     private String street2;
