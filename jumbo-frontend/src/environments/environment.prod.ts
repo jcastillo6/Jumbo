@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
-  backend: 'http://localhost:8080/api/v1',
-  googleKey : 'xxxxxxxxxxxxxxxxxxxxxxxxxx'
+  backend: 'https://jumbo-service-dot-jumbo-sandbox.uc.r.appspot.com',
+  googleKey : 'AIzaSyDQaWVNBghlz34FbD4JLi0CHRuCMIGOeAY'
 };
